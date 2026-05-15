@@ -67,18 +67,22 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
   return (
     <AnimatePresence>
       <motion.div
+        key="skill-backdrop"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+
         className="fixed inset-0 z-40 bg-black/40 backdrop-blur-md md:hidden"
         onClick={onClose}
       />
       
       <motion.div
+        key="skill-details-panel"
         initial={{ x: "100%", opacity: 0.5 }}
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: "100%", opacity: 0.5 }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
+
         className="fixed top-0 right-0 h-full w-full md:w-[600px] bg-cyber-darker/95 border-l border-white/10 z-50 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] backdrop-blur-xl overflow-hidden"
       >
         {/* Header */}

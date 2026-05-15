@@ -4,9 +4,15 @@ import { useAuth } from "@/components/layout/AuthProvider";
 import { Shield, Zap, Target, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { SeasonProgressionPanel } from "@/components/events/SeasonProgressionPanel";
+import { CommunityGoalTracker } from "@/components/events/CommunityGoalTracker";
+import { MissionLog } from "@/components/events/MissionLog";
+import { RegionalLeaderboards } from "@/components/events/RegionalLeaderboards";
+import { useLiveEvents } from "@/hooks/useLiveEvents";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  useLiveEvents(); // Initialize live events loop for the dashboard
 
   if (!user) {
     return (
@@ -35,53 +41,68 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <motion.div 
-          whileHover={{ y: -5 }}
-          className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
-        >
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Zap className="w-24 h-24 text-cyber-cyan" />
-          </div>
-          <div className="text-cyber-muted font-mono text-sm mb-2">CURRENT LEVEL</div>
-          <div className="text-5xl font-bold text-glow-cyan text-cyber-cyan">{user.level}</div>
-          <div className="mt-4 w-full h-1 bg-white/10 rounded overflow-hidden">
-            <div className="h-full bg-cyber-cyan w-[40%]" />
-          </div>
-          <div className="text-xs text-cyber-muted mt-2 text-right">{user.xp} / {(user.level) * 100} XP</div>
-        </motion.div>
+      <div className="mb-12">
+        <SeasonProgressionPanel />
+      </div>
 
-        <motion.div 
-          whileHover={{ y: -5 }}
-          className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
-        >
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Target className="w-24 h-24 text-cyber-purple" />
-          </div>
-          <div className="text-cyber-muted font-mono text-sm mb-2">SKILLS UNLOCKED</div>
-          <div className="text-5xl font-bold text-glow-purple text-cyber-purple">{completedSkills.length}</div>
-          <div className="mt-4 text-sm text-cyber-muted">
-            Out of {user.skills.length} total skills
-          </div>
-        </motion.div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        <div className="lg:col-span-2 space-y-6">
+          <CommunityGoalTracker />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Zap className="w-24 h-24 text-cyber-cyan" />
+              </div>
+              <div className="text-cyber-muted font-mono text-sm mb-2">CURRENT LEVEL</div>
+              <div className="text-5xl font-bold text-glow-cyan text-cyber-cyan">{user.level}</div>
+              <div className="mt-4 w-full h-1 bg-white/10 rounded overflow-hidden">
+                <div className="h-full bg-cyber-cyan w-[40%]" />
+              </div>
+              <div className="text-xs text-cyber-muted mt-2 text-right">{user.xp} / {(user.level) * 100} XP</div>
+            </motion.div>
 
-        <motion.div 
-          whileHover={{ y: -5 }}
-          className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
-        >
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <Award className="w-24 h-24 text-cyber-green" />
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Target className="w-24 h-24 text-cyber-purple" />
+              </div>
+              <div className="text-cyber-muted font-mono text-sm mb-2">SKILLS UNLOCKED</div>
+              <div className="text-5xl font-bold text-glow-purple text-cyber-purple">{completedSkills.length}</div>
+              <div className="mt-4 text-sm text-cyber-muted">
+                Out of {user.skills.length} total skills
+              </div>
+            </motion.div>
+
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <Award className="w-24 h-24 text-cyber-green" />
+              </div>
+              <div className="text-cyber-muted font-mono text-sm mb-2">NEXT TARGETS</div>
+              <div className="text-5xl font-bold text-glow-green text-cyber-green">{availableSkills.length}</div>
+              <div className="mt-4 text-sm text-cyber-muted flex gap-2 overflow-hidden whitespace-nowrap">
+                {availableSkills.slice(0, 3).map(s => (
+                  <span key={s.id} className="bg-white/5 px-2 py-1 rounded text-xs truncate">
+                    {s.title}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           </div>
-          <div className="text-cyber-muted font-mono text-sm mb-2">NEXT TARGETS</div>
-          <div className="text-5xl font-bold text-glow-green text-cyber-green">{availableSkills.length}</div>
-          <div className="mt-4 text-sm text-cyber-muted flex gap-2 overflow-hidden whitespace-nowrap">
-            {availableSkills.slice(0, 3).map(s => (
-              <span key={s.id} className="bg-white/5 px-2 py-1 rounded text-xs truncate">
-                {s.title}
-              </span>
-            ))}
-          </div>
-        </motion.div>
+        </div>
+        
+        <div className="space-y-6">
+          <MissionLog />
+          <RegionalLeaderboards />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

@@ -29,6 +29,9 @@ export interface UserState {
   streakDays: number;
   completedChallenges: ChallengeSubmission[];
   masteryTiers: Record<string, MasteryTier>;
+  guildId: string | null;
+  partyId: string | null;
+  mentorRating: number;
 }
 
 interface AuthContextType {
@@ -70,6 +73,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         streakDays: 0,
         completedChallenges: [],
         masteryTiers: {},
+        guildId: null,
+        partyId: null,
+        mentorRating: 0,
       };
       // Run the initial evaluation just in case the mock has some completed skills
       const completedSkillIds = defaultUser.skills.filter(s => s.status === 'Completed').map(s => s.id);
@@ -109,6 +115,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       streakDays: 0,
       completedChallenges: [],
       masteryTiers: {},
+      guildId: null,
+      partyId: null,
+      mentorRating: 0,
     });
   };
 

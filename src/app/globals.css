@@ -1,92 +1,274 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+/*
+  SkillT Design System — v3.0
+  Reference: OVERVUE dashboard aesthetic
 
-  --color-cyber-dark: #09090b;
-  --color-cyber-darker: #050505;
-  --color-cyber-light: #18181b;
-  --color-cyber-cyan: #00f0ff;
-  --color-cyber-purple: #b026ff;
-  --color-cyber-green: #39ff14;
-  --color-cyber-text: #e2e8f0;
-  --color-cyber-muted: #94a3b8;
+  Philosophy: Cyberpunk Operating System
+  ─ matte dark surfaces, not shiny
+  ─ opacity-tiered white text (no color tinting for regular text)
+  ─ ONE accent color, used surgically
+  ─ subtle grid texture for depth, no glow blur stacks
+  ─ color encodes meaning, not decoration
+  ─ spectacle reserved for real earned moments
+*/
 
-  --animate-pulse-fast: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-glow: glow 2s ease-in-out infinite alternate;
+:root {
+  /* ── FONTS ── */
+  --font-sans: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "Fira Code", monospace;
+
+  /* ── SURFACES ── near-black matte, no shine */
+  --bg-base:       #090b10;
+  --bg-card:       #0f1219;
+  --bg-card-hover: #141720;
+  --bg-elevated:   #1a1f2e;
+
+  /* ── BORDERS ── hairline, barely visible */
+  --border:        rgba(255,255,255,0.07);
+  --border-mid:    rgba(255,255,255,0.12);
+  --border-accent: rgba(255,255,255,0.18);
+
+  /* ── TEXT ── strict 3-tier, opacity-only (never color-tinted for prose) */
+  --text-primary:   rgba(255,255,255,0.95);
+  --text-secondary: rgba(255,255,255,0.55);
+  --text-muted:     rgba(255,255,255,0.30);
+
+  /* ── ACCENT ── ONE signature color. Use surgically. */
+  /* Emerald-cyan — readable in dark, distinct without screaming */
+  --accent:        #00e5a0;
+  --accent-dim:    rgba(0,229,160,0.12);
+  --accent-border: rgba(0,229,160,0.25);
+
+  /* ── SEMANTIC COLORS ── encode state/domain, not aesthetics */
+  --color-red:     #ff4d6d;
+  --color-red-dim: rgba(255,77,109,0.10);
+  --color-amber:   #ffb547;
+  --color-amber-dim: rgba(255,181,71,0.10);
+  --color-blue:    #4d9fff;
+  --color-blue-dim: rgba(77,159,255,0.10);
+  --color-purple:  #a78bfa;
+  --color-purple-dim: rgba(167,139,250,0.10);
+
+  /* ── PRESTIGE ── earned, reserved (boss completions, legendary unlocks) */
+  --prestige-gold:   #f59e0b;
+  --prestige-gold-dim: rgba(245,158,11,0.12);
+  --prestige-legendary: #c084fc;
+
+  /* ── SPECTACLE ── full saturation, boss flash ONLY, never persistent */
+  --spectacle-cyan:   #00f0ff;
+  --spectacle-purple: #b026ff;
+  --spectacle-green:  #39ff14;
+
+  /* ── RADIUS ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* ── LEGACY ALIASES ── keeps existing Tailwind classes from breaking */
+  --color-cyber-dark:    var(--bg-base);
+  --color-cyber-darker:  var(--bg-base);
+  --color-cyber-light:   var(--bg-elevated);
+  --color-cyber-cyan:    var(--accent);
+  --color-cyber-purple:  var(--color-purple);
+  --color-cyber-green:   var(--accent);
+  --color-cyber-text:    var(--text-primary);
+  --color-cyber-muted:   var(--text-secondary);
+
+  /* ── ANIMATIONS ── */
+  --animate-pulse-slow: pulse-dot 2s ease-in-out infinite;
   --animate-rank-shimmer: rank-shimmer 2s ease-in-out infinite;
 }
 
+/* ─── BASE ──────────────────────────────────────────────── */
+
+
+
+
+/* ─── BASE ──────────────────────────────────────────────── */
 @layer base {
   :root {
-    --background: var(--color-cyber-darker);
-    --foreground: var(--color-cyber-text);
+    --background: var(--bg-base);
+    --foreground: var(--text-primary);
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
     font-family: var(--font-sans);
+    min-height: 100vh;
     overflow-x: hidden;
+
+    /* Subtle grid texture — structure without noise */
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
-  @keyframes glow {
-    from {
-      box-shadow: 0 0 10px -2px var(--color-cyber-cyan);
-    }
-    to {
-      box-shadow: 0 0 20px 2px var(--color-cyber-cyan);
-    }
-  }
+  /* ── KEYFRAMES ── */
 
-  /* Custom Scrollbar for Cyberpunk vibe */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-cyber-darker);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-cyber-purple);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-cyber-cyan);
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
   }
 
   @keyframes rank-shimmer {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    50%       { opacity: 0.6; }
   }
+
+  /* Staggered page-load fade-up */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Spectacle: boss completion flash — one-shot, not looping */
+  @keyframes spectacle-flash {
+    0%   { box-shadow: 0 0 0px   rgba(0,229,160,0); }
+    30%  { box-shadow: 0 0 60px  rgba(0,229,160,0.7); }
+    100% { box-shadow: 0 0 14px  rgba(0,229,160,0.1); }
+  }
+
+  /* Prestige pulse — sovereign profiles, legendary items only */
+  @keyframes prestige-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(245,158,11,0.25); }
+    50%       { box-shadow: 0 0 24px rgba(245,158,11,0.5); }
+  }
+
+  /* Scrollbar — invisible until needed, no purple */
+  ::-webkit-scrollbar       { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-mid);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-accent); }
 }
 
+/* ─── UTILITIES ─────────────────────────────────────────── */
 @layer utilities {
-  .text-glow-cyan {
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
-  }
-  .text-glow-purple {
-    text-shadow: 0 0 10px rgba(176, 38, 255, 0.7);
-  }
+
+  /* GLASS — navbar & modal surfaces */
   .bg-glass {
-    background: rgba(24, 24, 27, 0.6);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(9,11,16,0.80);
+    backdrop-filter: blur(16px) saturate(150%);
+    border-bottom: 1px solid var(--border);
   }
+
+  /* CARD SURFACES */
+  .card-surface {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .card-surface:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-mid);
+  }
+
+  /* TEXT GLOW — only for accent text, small radius, restrained */
+  .text-glow-accent  { text-shadow: 0 0 10px rgba(0,229,160,0.4); }
+  /* Legacy compat — calmed */
+  .text-glow-cyan    { text-shadow: 0 0 8px rgba(0,229,160,0.3); }
+  .text-glow-purple  { text-shadow: 0 0 8px rgba(167,139,250,0.3); }
+  .text-glow-green   { text-shadow: 0 0 8px rgba(0,229,160,0.3); }
+
+  /* ACCENT SURFACE — tinted bg + border, for pills/badges */
+  .accent-surface {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    color: var(--accent);
+  }
+
+  /* PRESTIGE BORDERS — leaderboard top 3, elite profiles */
   .prestige-gold {
-    border-color: rgba(251, 191, 36, 0.6);
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.3), inset 0 0 20px rgba(251, 191, 36, 0.05);
+    border-color: rgba(245,158,11,0.35) !important;
+    box-shadow: 0 0 14px rgba(245,158,11,0.12);
   }
   .prestige-silver {
-    border-color: rgba(226, 232, 240, 0.5);
-    box-shadow: 0 0 15px rgba(226, 232, 240, 0.2);
+    border-color: rgba(148,163,184,0.30) !important;
+    box-shadow: 0 0 10px rgba(148,163,184,0.08);
   }
   .prestige-bronze {
-    border-color: rgba(180, 83, 9, 0.5);
-    box-shadow: 0 0 12px rgba(180, 83, 9, 0.2);
+    border-color: rgba(180,83,9,0.30) !important;
+    box-shadow: 0 0 8px rgba(180,83,9,0.08);
   }
-  .scrollbar-hide::-webkit-scrollbar { display: none; }
-  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* SPECTACLE — only triggered by JS class on boss/legendary events */
+  .spectacle-boss       { animation: spectacle-flash 1.2s ease-out forwards; }
+  .spectacle-legendary  {
+    border-color: rgba(192,132,252,0.5) !important;
+    box-shadow: 0 0 28px rgba(192,132,252,0.35);
+  }
+
+  /* INACTIVE SURFACE — dormant but discoverable */
+  .inactive-surface {
+    opacity: 0.72;
+    filter: grayscale(0.4);
+    pointer-events: none;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+
+  /* BACKGROUND AMBIENT ICONS — holographic residue */
+  .bg-icon-ambient {
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+    filter: blur(1px);
+    transition: opacity 0.5s ease;
+  }
+  .bg-icon-purple { color: #7c3aed; }
+  .bg-icon-cyan   { color: #06b6d4; }
+
+  /* LIVE BADGE dot */
+  .live-dot {
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  /* PROGRESS TRACK */
+  .progress-track {
+    height: 3px;
+    background: var(--bg-elevated);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 1s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  /* PAGE LOAD STAGGER — apply to direct children of page containers */
+  .stagger-children > * {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp 0.4s ease forwards;
+  }
+  .stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.12s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.18s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.24s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.30s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.36s; }
+
+  /* SCROLLBAR UTILS */
+  .custom-scrollbar::-webkit-scrollbar       { width: 5px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 999px; }
+  .scrollbar-hide::-webkit-scrollbar         { display: none; }
+  .scrollbar-hide                            { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* STATUS DOTS */
+  .status-ok   { color: var(--accent); }
+  .status-warn { color: var(--color-amber); }
+  .status-err  { color: var(--color-red); }
 }

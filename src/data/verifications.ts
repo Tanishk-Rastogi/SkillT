@@ -1,7 +1,8 @@
-export type VerificationLevel = 1 | 2 | 3;
-// 1 = Learned (Consumed content)
-// 2 = Practiced (Built projects internally)
-// 3 = Verified (External proof exists)
+export type VerificationLevel = 1 | 2 | 3 | 4;
+// 1 = Completion (finished content, weakest proof)
+// 2 = Challenge Proof (timed & constrained tasks)
+// 3 = Project Proof (real-world implementation)
+// 4 = Social Proof (mentors, guilds, peer endorsements)
 
 export interface ConnectedPlatform {
   platformId: 'github' | 'leetcode' | 'gfg';
@@ -14,7 +15,7 @@ export interface VerificationRecord {
   skillId: string;
   level: VerificationLevel;
   verifiedBy: string; // e.g., 'GitHub', 'LeetCode', 'Manual'
-  evidenceType: 'repository' | 'certificate' | 'challenge' | 'internal_test';
+  evidenceType: 'repository' | 'certificate' | 'challenge' | 'internal_test' | 'mentor_review' | 'guild_event' | 'peer_endorsement';
   evidenceLinks: string[];
   confidenceScore: number; // 0-100
   verifiedAt: string;

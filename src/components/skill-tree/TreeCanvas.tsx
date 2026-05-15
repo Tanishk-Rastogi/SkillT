@@ -16,7 +16,8 @@ import "@xyflow/react/dist/style.css";
 import { SkillNode } from "./SkillNode";
 import { SkillEdge } from "./SkillEdge";
 import { useAuth } from "../layout/AuthProvider";
-import { Skill, ROLE_SKILLS, INITIAL_SKILLS } from "@/data/skills";
+import { Skill, ROLE_SKILLS, INITIAL_SKILLS, SKILLS, SkillStatus } from "@/data/skills";
+
 
 const nodeTypes = {
   skill: SkillNode,
@@ -41,14 +42,15 @@ export function TreeCanvas({ onNodeClick, roleId }: TreeCanvasProps) {
   // We should merge INITIAL_SKILLS with the user's completed state.
 
   const globalSkillsWithState = useMemo(() => {
-    return INITIAL_SKILLS.map(globalSkill => {
-      const userSkill = user?.skills?.find(s => s.id === globalSkill.id);
+    return SKILLS.map((globalSkill: Skill) => {
+      const userSkill = user?.skills?.find((s: Skill) => s.id === globalSkill.id);
       return {
         ...globalSkill,
-        status: userSkill ? userSkill.status : globalSkill.status
+        status: (userSkill ? userSkill.status : globalSkill.status) as SkillStatus
       };
     });
   }, [user?.skills]);
+
 
   // Filter global skills to only those included in the active role, and map their positions.
   const roleSkillsMap = useMemo(() => ROLE_SKILLS.filter(rs => rs.roleId === roleId), [roleId]);
@@ -80,10 +82,11 @@ export function TreeCanvas({ onNodeClick, roleId }: TreeCanvasProps) {
         }
 
         // Check if all prerequisites are completed globally
-        const allPrerequisitesCompleted = prerequisites.every((prereqId) => {
-          const prereqSkill = globalSkillsWithState.find((s) => s.id === prereqId);
-          return prereqSkill?.status === "Completed";
+        const allPrerequisitesCompleted = prerequisites.every((prereqId: string) => {
+          const prereqSkill = globalSkillsWithState.find((s: Skill) => s.id === prereqId);
+          return prereqSkill?.status === "Completed" || prereqSkill?.status === "VERIFIED" || prereqSkill?.status === "Verified";
         });
+
 
         if (allPrerequisitesCompleted) {
           return { ...skill, status: "Available" as const, position: roleSkillMeta?.position };
@@ -93,26 +96,44 @@ export function TreeCanvas({ onNodeClick, roleId }: TreeCanvasProps) {
       });
   }, [globalSkillsWithState, roleSkillIds, roleSkillsMap]);
 
+  const visibleSkills = useMemo(() => {
+    return processedSkills.filter(skill => {
+      // 1. Starters (no prerequisites) are always visible
+      const hasPrereqs = skill.prerequisites && skill.prerequisites.length > 0;
+      if (!hasPrereqs) return true;
+
+      // 2. Already completed skills are obviously visible
+      if (skill.status === "Completed" || skill.status === "Verified" || skill.status === "VERIFIED") return true;
+
+      // 3. Visible if AT LEAST ONE prerequisite in the ENTIRE system is completed.
+      // This allows cross-role discovery (e.g. learning Git in DevOps reveals it in Frontend).
+      return skill.prerequisites.some(prereqId => {
+        const prereq = globalSkillsWithState.find(s => s.id === prereqId);
+        return prereq?.status === "Completed" || prereq?.status === "Verified" || prereq?.status === "VERIFIED";
+      });
+    });
+  }, [processedSkills, globalSkillsWithState]);
+
   const initialNodes: Node[] = useMemo(() => {
-    return processedSkills.map((skill) => ({
+    return visibleSkills.map((skill) => ({
       id: skill.id,
       type: "skill",
       position: skill.position || { x: 0, y: 0 },
       data: skill as unknown as Record<string, unknown>,
     }));
-  }, [processedSkills]);
+  }, [visibleSkills]);
 
   const initialEdges: Edge[] = useMemo(() => {
     const edges: Edge[] = [];
+    const visibleSkillIds = visibleSkills.map(s => s.id);
 
-    // Dynamically generate edges based on prerequisites that are PRESENT in this specific role's tree.
-    // We don't want to draw lines to nodes that aren't on the canvas.
-    processedSkills.forEach((skill) => {
+    // Dynamically generate edges only between nodes that are BOTH visible.
+    visibleSkills.forEach((skill: Skill) => {
       const prerequisites = skill.prerequisites || [];
-      prerequisites.forEach((prereqId) => {
-        if (roleSkillIds.includes(prereqId)) {
-          const parent = processedSkills.find((s) => s.id === prereqId);
-          const isUnlocked = parent?.status === "Completed";
+      prerequisites.forEach((prereqId: string) => {
+        if (visibleSkillIds.includes(prereqId)) {
+          const parent = visibleSkills.find((s: Skill) => s.id === prereqId);
+          const isUnlocked = parent?.status === "Completed" || parent?.status === "VERIFIED" || parent?.status === "Verified";
 
           edges.push({
             id: `e-${prereqId}-${skill.id}`,
@@ -127,7 +148,8 @@ export function TreeCanvas({ onNodeClick, roleId }: TreeCanvasProps) {
     });
 
     return edges;
-  }, [processedSkills, roleSkillIds]);
+  }, [visibleSkills]);
+
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -158,16 +180,17 @@ export function TreeCanvas({ onNodeClick, roleId }: TreeCanvasProps) {
         edgeTypes={edgeTypes}
         connectionMode={ConnectionMode.Loose}
         fitView
-        minZoom={0.2}
-        maxZoom={2}
+        zoomOnScroll={true}
+        zoomOnPinch={true}
+        panOnScroll={true}
+        maxZoom={1.5}
+        minZoom={0.5}
         proOptions={{ hideAttribution: true }}
+
       >
         <FlowBackground color="#ffffff" gap={16} size={1} className="opacity-5" />
-        <Controls 
-          className="bg-cyber-darker border border-white/10 rounded-lg overflow-hidden fill-cyber-cyan" 
-          showInteractive={false}
-        />
       </ReactFlow>
     </div>
+
   );
 }

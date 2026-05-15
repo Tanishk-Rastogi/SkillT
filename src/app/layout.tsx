@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Syne, DM_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/layout/AuthProvider";
 import { Navbar } from "@/components/layout/Navbar";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { Background } from "@/components/layout/Background";
+import { WorldEvolutionOverlay } from "@/components/world/WorldEvolutionOverlay";
+import { SidebarProvider } from "@/lib/SidebarContext";
+import { MainContent } from "@/components/layout/MainContent";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const syne = Syne({ subsets: ["latin"], weight: ["400","500","600","700"], variable: "--font-sans" });
+const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400","500"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "SkillTree MVP",
-  description: "A gamified web app to track your developer skills like an RPG.",
+  title: "SkillT — Career Progression OS",
+  description: "A verifiable skill civilization for engineers. Build proof. Not claims.",
 };
 
 export default function RootLayout({
@@ -19,14 +23,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
-      <body className="antialiased bg-[var(--color-cyber-darker)] text-[var(--color-cyber-text)] selection:bg-[var(--color-cyber-purple)] selection:text-white">
+    <html lang="en" className={`${syne.variable} ${dmMono.variable} dark`}>
+      <body className="antialiased bg-[var(--bg-base)] text-[var(--text-primary)] selection:bg-[var(--accent)] selection:text-black">
         <AuthProvider>
-          <Background />
-          <Navbar />
-          <main className="pt-16 min-h-screen">
-            {children}
-          </main>
+          <SidebarProvider>
+            <Background />
+            <WorldEvolutionOverlay />
+            {/* Sidebar — fixed left, manages its own width via context */}
+            <Sidebar />
+            {/* Navbar — reads sidebar context for left offset */}
+            <Navbar />
+            <MainContent>
+              {children}
+            </MainContent>
+          </SidebarProvider>
         </AuthProvider>
       </body>
     </html>
