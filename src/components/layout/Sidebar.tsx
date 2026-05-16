@@ -6,14 +6,12 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from './AuthProvider';
 import { useSidebar } from '@/lib/SidebarContext';
 import {
-  Globe, LayoutDashboard, Trophy, Shield, Users,
+  LayoutDashboard, Trophy, Shield, Users,
   Pencil, LogOut, ChevronRight, ChevronLeft, Menu, X,
 } from 'lucide-react';
 
 const PRIMARY_NAV = [
-  { href: '/world',     label: 'World',     icon: Globe },
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/talent',    label: 'Talent',    icon: Users },
 ];
 const SECONDARY_NAV = [
   { href: '/leaderboard', label: 'Rankings', icon: Trophy },

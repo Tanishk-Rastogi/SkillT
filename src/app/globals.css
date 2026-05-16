@@ -15,8 +15,9 @@
 
 :root {
   /* ── FONTS ── */
-  --font-sans: "Syne", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "DM Mono", ui-monospace, "Fira Code", monospace;
+  --font-display: var(--font-display); /* Space Grotesk from layout.tsx */
+  --font-sans:    var(--font-sans);    /* Inter from layout.tsx */
+  --font-mono:    var(--font-mono);    /* DM Mono from layout.tsx */
 
   /* ── SURFACES ── near-black matte, no shine */
   --bg-base:       #090b10;
@@ -114,6 +115,24 @@
 
   /* ── KEYFRAMES ── */
 
+  /* ── KEYFRAMES ── */
+  @keyframes shimmer-sweep {
+    0%   { transform: translateX(-100%); }
+    50%  { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes breathing-glow {
+    0%, 100% { opacity: 0.08; filter: blur(20px); transform: scale(1); }
+    50%       { opacity: 0.14; filter: blur(30px); transform: scale(1.05); }
+  }
+
+  @keyframes slow-drift {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(15px, -15px) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+  }
+
   @keyframes pulse-dot {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.3; }
@@ -155,23 +174,64 @@
 
 /* ─── UTILITIES ─────────────────────────────────────────── */
 @layer utilities {
+  /* TYPOGRAPHY */
+  .font-display { font-family: var(--font-display); }
+  .font-reading { font-family: var(--font-sans); }
+
+  .text-system { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.1em; }
+  .text-narrative { font-family: var(--font-sans); text-transform: none; letter-spacing: normal; }
 
   /* GLASS — navbar & modal surfaces */
-  .bg-glass {
-    background: rgba(9,11,16,0.80);
-    backdrop-filter: blur(16px) saturate(150%);
-    border-bottom: 1px solid var(--border);
-  }
 
-  /* CARD SURFACES */
-  .card-surface {
+  /* SURFACE HIERARCHY — Cinematic System Design */
+  
+  /* Tier 1 — Passive System Surfaces (Infrastructural / Technical) */
+  .surface-passive {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+    border-radius: 12px; /* Sharper — Technical feel */
+    transition: background 0.3s ease;
   }
-  .card-surface:hover {
+
+  /* Tier 2 — Interactive Surfaces (Progression / Engagement) */
+  .surface-interactive {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 22px; /* Balanced — Premium feel */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .surface-interactive:hover {
     background: var(--bg-card-hover);
-    border-color: var(--border-mid);
+    border-color: var(--accent-border);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Tier 3 — Prestige Surfaces (Mastery / Rare / Active) */
+  .surface-prestige {
+    background: var(--bg-elevated);
+    border: 1px solid var(--accent-border);
+    border-radius: 32px; /* Large — Player-facing / Elite */
+    box-shadow: 
+      0 0 0 1px var(--accent-dim),
+      0 20px 60px rgba(0, 0, 0, 0.5),
+      0 0 80px var(--accent-dim);
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .surface-prestige::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, var(--accent-dim), transparent 60%);
+    pointer-events: none;
+  }
+
+  /* AMBIENT GLOWS */
+  .ambient-breathing {
+    animation: breathing-glow 7s ease-in-out infinite;
   }
 
   /* TEXT GLOW — only for accent text, small radius, restrained */
@@ -239,12 +299,37 @@
     background: var(--bg-elevated);
     border-radius: 2px;
     overflow: hidden;
+    position: relative;
   }
   .progress-fill {
     height: 100%;
     border-radius: 2px;
     background: var(--accent);
     transition: width 1s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: shimmer-sweep 3s ease-in-out infinite;
+    transform: translateX(-100%);
+  }
+
+  /* ATMOSPHERIC PARTICLES */
+  .particle-drift {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.05;
+    filter: blur(4px);
+    pointer-events: none;
+    animation: slow-drift 20s ease-in-out infinite;
+    z-index: -1;
   }
 
   /* PAGE LOAD STAGGER — apply to direct children of page containers */

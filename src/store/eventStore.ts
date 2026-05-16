@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Season, GlobalEvent, CommunityGoal, Mission, WorldStateChange } from '../types/events';
+import { Season, GlobalEvent, CommunityGoal, Mission } from '../types/events';
 
 interface EventState {
   activeSeason: Season | null;
@@ -7,7 +7,6 @@ interface EventState {
   communityGoals: CommunityGoal[];
   dailyMissions: Mission[];
   weeklyMissions: Mission[];
-  activeWorldChanges: WorldStateChange[];
   
   // Actions
   setSeason: (season: Season) => void;
@@ -27,14 +26,6 @@ const initialSeason: Season = {
   eventChallenges: ['build-cyber-ui', 'neon-animations'],
   seasonalRewards: ['neon-profile-border', 'title-neon-pathfinder'],
   leaderboardRules: {},
-  worldChanges: [
-    {
-      id: 'wc-1',
-      type: 'visual',
-      description: 'The world map is bathed in a neon grid.',
-      isActive: true,
-    }
-  ],
   exclusiveTitles: ['Neon Pathfinder', 'Cyber Architect'],
   cosmetics: ['neon-trail', 'cyber-avatar'],
   progressionTrack: {
@@ -101,9 +92,8 @@ export const useEventStore = create<EventState>((set) => ({
   communityGoals: initialCommunityGoals,
   dailyMissions: initialMissions.filter(m => m.type === 'daily'),
   weeklyMissions: initialMissions.filter(m => m.type === 'weekly'),
-  activeWorldChanges: initialSeason.worldChanges.filter(wc => wc.isActive),
 
-  setSeason: (season) => set({ activeSeason: season, activeWorldChanges: season.worldChanges.filter(wc => wc.isActive) }),
+  setSeason: (season) => set({ activeSeason: season }),
   
   setEvents: (events) => set({ activeEvents: events }),
   

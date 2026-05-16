@@ -1,173 +1,66 @@
 "use client";
 
 import { useAuth } from "@/components/layout/AuthProvider";
-import { Shield, Zap, Target, Award } from "lucide-react";
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { SeasonProgressionPanel } from "@/components/events/SeasonProgressionPanel";
-import { CommunityGoalTracker } from "@/components/events/CommunityGoalTracker";
-import { MissionLog } from "@/components/events/MissionLog";
-import { RegionalLeaderboards } from "@/components/events/RegionalLeaderboards";
-import { useLiveEvents } from "@/hooks/useLiveEvents";
+import { IdentityHeader } from "@/components/dashboard/IdentityHeader";
+import { ProgressionCore } from "@/components/dashboard/ProgressionCore";
+import { SkillTreeMini } from "@/components/dashboard/SkillTreeMini";
+import { MissionControl } from "@/components/dashboard/MissionControl";
+import { StatsVisualizer } from "@/components/dashboard/StatsVisualizer";
+import { AchievementsShowcase } from "@/components/dashboard/AchievementsShowcase";
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  useLiveEvents(); // Initialize live events loop for the dashboard
 
   if (!user) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)]">
-        <h1 className="text-3xl font-mono text-cyber-cyan mb-4">ACCESS DENIED</h1>
-        <p className="text-cyber-muted mb-8">Please initiate login to access your dashboard.</p>
-        <Link href="/" className="px-6 py-2 border border-cyber-cyan text-cyber-cyan rounded hover:bg-cyber-cyan hover:text-black transition-all">
-          Return to Hub
-        </Link>
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] p-6">
+        <div className="card-surface p-12 text-center max-w-md">
+          <h1 className="text-2xl font-black font-mono tracking-widest text-accent mb-4 uppercase">ACCESS_DENIED</h1>
+          <p className="text-text-secondary text-sm mb-8 leading-relaxed font-mono uppercase tracking-tight">
+            Unauthorized terminal access attempt detected. Identity verification required.
+          </p>
+          <Link href="/" className="inline-flex px-8 py-3 bg-accent text-bg-base font-black text-xs uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all shadow-[0_0_20px_rgba(0,229,160,0.2)]">
+            Initialize Login
+          </Link>
+        </div>
       </div>
     );
   }
 
-  const completedSkills = user.skills.filter(s => s.status === "Completed");
-  const availableSkills = user.skills.filter(s => s.status === "Available");
-
   return (
-    <div className="container mx-auto px-6 py-12">
-      <div className="flex items-center gap-4 mb-12">
-        <div className="w-16 h-16 rounded-full bg-cyber-dark border border-cyber-purple flex items-center justify-center shadow-[0_0_20px_rgba(176,38,255,0.3)]">
-          <Shield className="w-8 h-8 text-cyber-purple" />
+    <div className="max-w-[1400px] mx-auto px-6 py-12 md:py-20 lg:px-12 stagger-children relative">
+      {/* Atmospheric Particles */}
+      <div className="particle-drift top-[20%] left-[10%]" />
+      <div className="particle-drift top-[60%] left-[80%] [animation-delay:2s]" />
+      <div className="particle-drift top-[80%] left-[30%] [animation-delay:5s]" />
+      <div className="particle-drift top-[10%] left-[90%] [animation-delay:8s]" />
+
+      {/* 1. TOP: PLAYER IDENTITY */}
+      <IdentityHeader user={user} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+        {/* 2, 3, 6. LEFT/CENTER: MAIN PROGRESSION + SKILL TREE + ACHIEVEMENTS */}
+        <div className="lg:col-span-8 space-y-8">
+          <ProgressionCore user={user} />
+          <div className="h-[400px]">
+             <SkillTreeMini user={user} />
+          </div>
+          <AchievementsShowcase user={user} />
         </div>
-        <div>
-          <h1 className="text-3xl font-bold font-mono tracking-wider">{user.username}</h1>
-          <p className="text-cyber-muted font-mono">Cyber Developer</p>
+
+        {/* 4, 5, 7, 8. RIGHT: MISSIONS + STATS + RANKINGS + RECOMMENDATIONS */}
+        <div className="lg:col-span-4 space-y-8">
+          <StatsVisualizer user={user} />
+          <MissionControl user={user} />
         </div>
       </div>
 
-      <div className="mb-12">
-        <SeasonProgressionPanel />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-        <div className="lg:col-span-2 space-y-6">
-          <CommunityGoalTracker />
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Zap className="w-24 h-24 text-cyber-cyan" />
-              </div>
-              <div className="text-cyber-muted font-mono text-sm mb-2">CURRENT LEVEL</div>
-              <div className="text-5xl font-bold text-glow-cyan text-cyber-cyan">{user.level}</div>
-              <div className="mt-4 w-full h-1 bg-white/10 rounded overflow-hidden">
-                <div className="h-full bg-cyber-cyan w-[40%]" />
-              </div>
-              <div className="text-xs text-cyber-muted mt-2 text-right">{user.xp} / {(user.level) * 100} XP</div>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Target className="w-24 h-24 text-cyber-purple" />
-              </div>
-              <div className="text-cyber-muted font-mono text-sm mb-2">SKILLS UNLOCKED</div>
-              <div className="text-5xl font-bold text-glow-purple text-cyber-purple">{completedSkills.length}</div>
-              <div className="mt-4 text-sm text-cyber-muted">
-                Out of {user.skills.length} total skills
-              </div>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-cyber-dark border border-white/10 p-6 rounded relative overflow-hidden group"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Award className="w-24 h-24 text-cyber-green" />
-              </div>
-              <div className="text-cyber-muted font-mono text-sm mb-2">NEXT TARGETS</div>
-              <div className="text-5xl font-bold text-glow-green text-cyber-green">{availableSkills.length}</div>
-              <div className="mt-4 text-sm text-cyber-muted flex gap-2 overflow-hidden whitespace-nowrap">
-                {availableSkills.slice(0, 3).map(s => (
-                  <span key={s.id} className="bg-white/5 px-2 py-1 rounded text-xs truncate">
-                    {s.title}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-        
-        <div className="space-y-6">
-          <MissionLog />
-          <RegionalLeaderboards />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-xl font-mono font-bold mb-6 text-white border-b border-white/10 pb-2">Recent Achievements</h2>
-          <div className="space-y-4">
-            {completedSkills.length === 0 ? (
-              <div className="p-6 border border-white/5 rounded text-center text-cyber-muted bg-white/[0.02]">
-                No skills unlocked yet. Head to the SkillTree to begin!
-              </div>
-            ) : (
-              completedSkills.map((skill, i) => (
-                <div key={skill.id} className="flex justify-between items-center p-4 border border-white/5 rounded bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="text-cyber-green">
-                      <Award className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="font-bold">{skill.title}</div>
-                      <div className="text-xs text-cyber-muted">{skill.category}</div>
-                    </div>
-                  </div>
-                  <div className="text-cyber-cyan font-mono text-sm">+{skill.xpValue} XP</div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-xl font-mono font-bold mb-6 text-white border-b border-white/10 pb-2">Career Path Progress</h2>
-          <div className="p-6 border border-white/5 rounded bg-white/[0.02] mb-4">
-            <div className="flex justify-between items-end mb-2">
-              <div>
-                <h3 className="font-bold text-lg text-cyber-cyan">Frontend Developer</h3>
-                <p className="text-sm text-cyber-muted">Master HTML, CSS, JavaScript, and React.</p>
-              </div>
-              <span className="text-cyber-cyan font-mono font-bold">
-                {Math.round((completedSkills.length / user.skills.length) * 100)}%
-              </span>
-            </div>
-            <div className="w-full h-2 bg-white/10 rounded overflow-hidden">
-              <div 
-                className="h-full bg-cyber-cyan" 
-                style={{ width: `${(completedSkills.length / user.skills.length) * 100}%` }} 
-              />
-            </div>
-          </div>
-          
-          <div className="p-6 border border-white/5 rounded bg-white/[0.02] opacity-50">
-            <div className="flex justify-between items-end mb-2">
-              <div>
-                <h3 className="font-bold text-lg text-cyber-purple flex items-center gap-2">
-                  {/* @ts-expect-error type conflict with react 19 */}
-                  <Lock className="w-4 h-4" /> Fullstack Developer
-                </h3>
-                <p className="text-sm text-cyber-muted">Requires Frontend + Backend Mastery.</p>
-              </div>
-              <span className="text-cyber-purple font-mono font-bold">0%</span>
-            </div>
-            <div className="w-full h-2 bg-white/10 rounded overflow-hidden">
-              <div className="h-full bg-cyber-purple w-0" />
-            </div>
-          </div>
-        </div>
+      {/* Footer Quote / Tip */}
+      <div className="mt-20 text-center">
+         <p className="text-[10px] font-black text-text-muted uppercase tracking-[0.4em] opacity-40">
+           BUILD PROOF. NOT CLAIMS. // SKILLT ECOSYSTEM V3.0
+         </p>
       </div>
     </div>
   );

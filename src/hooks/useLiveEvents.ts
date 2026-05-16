@@ -8,8 +8,7 @@ export function useLiveEvents() {
     activeEvents, 
     communityGoals, 
     dailyMissions, 
-    weeklyMissions, 
-    activeWorldChanges 
+    weeklyMissions
   } = useEventStore();
 
   useEffect(() => {
@@ -38,7 +37,6 @@ export function useLiveEvents() {
     activeEvents,
     communityGoals,
     dailyMissions,
-    weeklyMissions,
-    activeWorldChanges
+    weeklyMissions
   };
 }

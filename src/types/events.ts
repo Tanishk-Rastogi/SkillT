@@ -1,10 +1,3 @@
-export type WorldStateChange = {
-  id: string;
-  type: 'visual' | 'region_unlock' | 'pathway';
-  description: string;
-  isActive: boolean;
-};
-
 export type Season = {
   id: string;
   title: string;
@@ -15,7 +8,6 @@ export type Season = {
   eventChallenges: string[];
   seasonalRewards: string[];
   leaderboardRules: Record<string, any>;
-  worldChanges: WorldStateChange[];
   exclusiveTitles: string[];
   cosmetics: string[];
   progressionTrack: {
