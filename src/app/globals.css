@@ -356,4 +356,72 @@
   .status-ok   { color: var(--accent); }
   .status-warn { color: var(--color-amber); }
   .status-err  { color: var(--color-red); }
+
+  /* PREMIUM PODIUM KEYFRAMES */
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spin-reverse-slow {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+  @keyframes float-gentle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes beam-shimmer {
+    0%, 100% { opacity: 0.15; filter: blur(8px) brightness(0.9); }
+    50% { opacity: 0.35; filter: blur(12px) brightness(1.2); }
+  }
+  @keyframes particle-rise {
+    0% { transform: translateY(0) scale(0.6); opacity: 0; }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-160px) scale(0.2); opacity: 0; }
+  }
+
+  /* UTILITY ANIMATIONS */
+  .animate-spin-slow {
+    animation: spin-slow 15s linear infinite;
+  }
+  .animate-spin-reverse-slow {
+    animation: spin-reverse-slow 20s linear infinite;
+  }
+  .animate-float-gentle {
+    animation: float-gentle 4s ease-in-out infinite;
+  }
+  .animate-beam-shimmer {
+    animation: beam-shimmer 6s ease-in-out infinite;
+  }
+  .animate-particle-rise-fast {
+    animation: particle-rise 4s linear infinite;
+  }
+  .animate-particle-rise-slow {
+    animation: particle-rise 6s linear infinite;
+  }
+
+  /* CONSTELLATION CENTERPIECE ANIMATIONS */
+  @keyframes path-travel {
+    to { stroke-dashoffset: -40; }
+  }
+  @keyframes node-glow-breath {
+    0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 3px currentColor); }
+    50% { opacity: 1; filter: drop-shadow(0 0 10px currentColor); }
+  }
+  @keyframes orbit-track-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-path-travel {
+    animation: path-travel 2.5s linear infinite;
+  }
+  .animate-node-glow-breath {
+    animation: node-glow-breath 3s ease-in-out infinite;
+  }
+  .animate-orbit-track-spin {
+    animation: orbit-track-spin 90s linear infinite;
+  }
 }
+

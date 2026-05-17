@@ -43,6 +43,11 @@ export interface LeaderboardEntry {
   // Visual
   avatarIcon: string; // lucide icon name
   themeColor: 'cyan' | 'purple' | 'amber' | 'emerald' | 'rose';
+  // Narrative Storytelling Extensions
+  specializationBadge: string;
+  dynamicSubtitle: string;
+  recentFeat: string;
+  milestoneLog: string;
 }
 
 // ============================================================
@@ -67,6 +72,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 9820,
     avatarIcon: 'Cpu',
     themeColor: 'purple',
+    specializationBadge: 'Neural Architect',
+    dynamicSubtitle: 'Mastered Neural Systems',
+    recentFeat: 'Evolved: AI Architect → Reality Weaver',
+    milestoneLog: 'Maintained Rank #1 for 3 Seasons',
   },
   {
     rank: 2,
@@ -84,6 +93,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 8740,
     avatarIcon: 'ShieldCheck',
     themeColor: 'emerald',
+    specializationBadge: 'Zero-Day Prophet',
+    dynamicSubtitle: 'Top 3 in Cybersecurity Clash',
+    recentFeat: 'Breached 14 security firewalls',
+    milestoneLog: 'Bypassed security infrastructure trial',
   },
   {
     rank: 3,
@@ -101,6 +114,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 7910,
     avatarIcon: 'Sparkles',
     themeColor: 'cyan',
+    specializationBadge: 'UI Alchemist',
+    dynamicSubtitle: 'Evolved to UI Architect T3',
+    recentFeat: 'Completed Frontend Architect Trial',
+    milestoneLog: 'Mastered glassmorphic and dynamic UI',
   },
   {
     rank: 4,
@@ -118,6 +135,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 7450,
     avatarIcon: 'Network',
     themeColor: 'amber',
+    specializationBadge: 'Infrastructure Warden',
+    dynamicSubtitle: 'Ascended to Infrastructure Warden',
+    recentFeat: 'Verified 14 skills via GitHub CI',
+    milestoneLog: 'Managed 99.99% system availability',
   },
   {
     rank: 5,
@@ -135,6 +156,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 6830,
     avatarIcon: 'Database',
     themeColor: 'cyan',
+    specializationBadge: 'Database Whisperer',
+    dynamicSubtitle: 'Mastered Distributed Databases',
+    recentFeat: 'Optimized query speed by 400%',
+    milestoneLog: 'Replicated 3 sharded global DB clusters',
   },
   {
     rank: 6,
@@ -152,6 +177,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 6220,
     avatarIcon: 'TrendingUp',
     themeColor: 'purple',
+    specializationBadge: 'Graph Traverser',
+    dynamicSubtitle: 'Mastered Advanced DP Patterns',
+    recentFeat: 'Solved 200+ DP problems on LeetCode',
+    milestoneLog: 'Ranked Top 0.5% in global coding trials',
   },
   {
     rank: 7,
@@ -169,6 +198,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 5710,
     avatarIcon: 'Code2',
     themeColor: 'cyan',
+    specializationBadge: 'Component Crafter',
+    dynamicSubtitle: 'React & TypeScript Maven',
+    recentFeat: 'Connected GitHub · 8 skills auto-verified',
+    milestoneLog: 'Mastered state sync & custom react hooks',
   },
   {
     rank: 8,
@@ -186,6 +219,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 5340,
     avatarIcon: 'Globe',
     themeColor: 'emerald',
+    specializationBadge: 'API Ranger',
+    dynamicSubtitle: 'Evolved to Cloud Engineer',
+    recentFeat: 'Unlocked Docker + K8s + AWS pathway',
+    milestoneLog: 'Orchestrated zero-downtime cluster rollouts',
   },
   {
     rank: 9,
@@ -203,6 +240,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 5010,
     avatarIcon: 'Lock',
     themeColor: 'emerald',
+    specializationBadge: 'Cipher Knight',
+    dynamicSubtitle: 'Discovered Synergy: Cipher Knight',
+    recentFeat: 'Unlocked via Crypto + Networking combo',
+    milestoneLog: 'Designed fully encrypted peer-to-peer system',
   },
   {
     rank: 10,
@@ -220,6 +261,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 4780,
     avatarIcon: 'Brain',
     themeColor: 'purple',
+    specializationBadge: 'Data Shaman',
+    dynamicSubtitle: 'Unlocked Deep Learning Path',
+    recentFeat: 'Unlocked: Neural Networks & Deep Learning',
+    milestoneLog: 'Trained custom LLM for localized analytics',
   },
   {
     rank: 11,
@@ -237,6 +282,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 4390,
     avatarIcon: 'Terminal',
     themeColor: 'amber',
+    specializationBadge: 'Shell Phantom',
+    dynamicSubtitle: 'Unix & Shell Automation Specialist',
+    recentFeat: 'Deployed complex multi-tenant server scripts',
+    milestoneLog: 'Refactored system provisioning boot speeds',
   },
   {
     rank: 12,
@@ -254,6 +303,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 3970,
     avatarIcon: 'FileCode',
     themeColor: 'cyan',
+    specializationBadge: 'Type Enforcer',
+    dynamicSubtitle: 'Strict Type System Crusader',
+    recentFeat: 'Refactored dynamic JS codebase to 100% TS',
+    milestoneLog: 'Eliminated all occurrences of "any" keyword',
   },
   {
     rank: 13,
@@ -271,6 +324,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 3520,
     avatarIcon: 'Server',
     themeColor: 'cyan',
+    specializationBadge: 'API Ranger',
+    dynamicSubtitle: 'Express & Node Server Dev',
+    recentFeat: 'Built highly scaleable REST API layer',
+    milestoneLog: 'Implemented robust OAuth2 JWT auth protocols',
   },
   {
     rank: 14,
@@ -288,6 +345,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 2810,
     avatarIcon: 'Code2',
     themeColor: 'cyan',
+    specializationBadge: 'Novice Coder',
+    dynamicSubtitle: 'General Systems Explorer',
+    recentFeat: 'Completed base programming fundamentals trial',
+    milestoneLog: 'Unlocked first 5 technical skill badges',
   },
   {
     rank: 15,
@@ -305,6 +366,10 @@ export const MOCK_PLAYERS: LeaderboardEntry[] = [
     prestigeScore: 1650,
     avatarIcon: 'Star',
     themeColor: 'cyan',
+    specializationBadge: 'Novice Coder',
+    dynamicSubtitle: 'Aspiring Web Dev Initiate',
+    recentFeat: 'Launched responsive static homepage build',
+    milestoneLog: 'Successfully connected Git to primary workspace',
   },
 ];
 

@@ -128,7 +128,7 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`pb-4 font-mono text-sm uppercase tracking-widest relative transition-colors whitespace-nowrap ${
+                className={`pb-4 font-mono text-sm uppercase tracking-wider relative transition-colors whitespace-nowrap ${
                   activeTab === tab ? "text-white font-bold" : "text-cyber-muted hover:text-white/80"
                 }`}
               >
@@ -160,21 +160,21 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
                   <div className="px-5 py-4 border border-amber-500/30 bg-amber-500/10 rounded-xl flex items-start gap-4">
                     <Globe2 className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
                     <div>
-                      <h3 className="text-sm font-bold text-amber-500 font-mono tracking-widest mb-1">UNIVERSAL SKILL</h3>
+                      <h3 className="text-sm font-bold text-amber-500 font-mono tracking-wider mb-1">UNIVERSAL SKILL</h3>
                       <p className="text-sm text-amber-500/80 leading-relaxed">This skill is foundational. Learning it here unlocks it permanently across all other domains and roles.</p>
                     </div>
                   </div>
                 )}
                 <div>
-                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest mb-3 flex items-center gap-2"><Code2 className="w-4 h-4" /> WHAT IT IS</h3>
+                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider mb-3 flex items-center gap-2"><Code2 className="w-4 h-4" /> WHAT IT IS</h3>
                   <p className="text-white/90 leading-relaxed text-[15px]">{skill.description}</p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest mb-3 flex items-center gap-2"><Lightbulb className="w-4 h-4" /> WHY IT EXISTS</h3>
+                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider mb-3 flex items-center gap-2"><Lightbulb className="w-4 h-4" /> WHY IT EXISTS</h3>
                   <p className="text-white/80 leading-relaxed text-sm bg-white/5 p-4 rounded-xl border border-white/5">{skill.whyItExists}</p>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest mb-3 flex items-center gap-2"><ShieldCheck className="w-4 h-4" /> WHY IT MATTERS</h3>
+                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider mb-3 flex items-center gap-2"><ShieldCheck className="w-4 h-4" /> WHY IT MATTERS</h3>
                   <p className="text-white/80 leading-relaxed text-[15px] italic border-l-2 border-cyber-purple pl-4">&ldquo;{skill.whyItMatters}&rdquo;</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -195,7 +195,7 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
               <motion.div key="challenges" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-5 pb-10">
                 {/* Mastery Tier Bar */}
                 <div className="p-4 bg-black/40 border border-white/8 rounded-xl">
-                  <div className="text-xs font-mono font-bold text-cyber-muted tracking-widest mb-3">YOUR MASTERY TIER</div>
+                  <div className="text-xs font-mono font-bold text-cyber-muted tracking-wider mb-3">YOUR MASTERY TIER</div>
                   <div className="flex gap-1.5">
                     {TIER_ORDER.map(tier => {
                       const meta = MASTERY_TIER_LABELS[tier];
@@ -267,12 +267,12 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
             {activeTab === 'applications' && (
               <motion.div key="applications" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-8 pb-10">
                 <div>
-                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest mb-3 flex items-center gap-2"><Globe2 className="w-4 h-4" /> REAL-WORLD USAGE</h3>
+                  <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider mb-3 flex items-center gap-2"><Globe2 className="w-4 h-4" /> REAL-WORLD USAGE</h3>
                   <p className="text-white/80 leading-relaxed text-[15px] bg-cyber-purple/5 border border-cyber-purple/20 p-4 rounded-xl">{skill.realWorldUsage}</p>
                 </div>
                 {skill.usedIn && skill.usedIn.length > 0 && (
                   <div>
-                    <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest mb-3 flex items-center gap-2"><Network className="w-4 h-4" /> COMMONLY USED IN</h3>
+                    <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider mb-3 flex items-center gap-2"><Network className="w-4 h-4" /> COMMONLY USED IN</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {skill.usedIn.map((item, idx) => (
                         <li key={idx} className="flex items-center gap-2 text-sm text-white/80 bg-white/5 px-3 py-2 rounded-lg border border-white/5">
@@ -284,7 +284,7 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
                 )}
                 {skill.recommendedProjects && skill.recommendedProjects.length > 0 && (
                   <div>
-                    <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest mb-3 flex items-center gap-2"><Rocket className="w-4 h-4" /> RECOMMENDED PROJECTS</h3>
+                    <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider mb-3 flex items-center gap-2"><Rocket className="w-4 h-4" /> RECOMMENDED PROJECTS</h3>
                     <div className="space-y-3">
                       {skill.recommendedProjects.map((project, idx) => (
                         <div key={idx} className="bg-black/30 border border-white/10 p-4 rounded-xl text-sm text-white/90">{project}</div>
@@ -294,7 +294,7 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
                 )}
                 {(skill.domainsUsedIn.length > 0 || skill.rolesUsedIn.length > 0) && (
                   <div className="space-y-4 pt-4 border-t border-white/10">
-                    <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-widest">GLOBAL PRESENCE MAP</h3>
+                    <h3 className="text-xs font-bold text-cyber-muted font-mono tracking-wider">GLOBAL PRESENCE MAP</h3>
                     {skill.domainsUsedIn.length > 0 && (
                       <div>
                         <h4 className="text-[10px] uppercase text-cyber-muted mb-2">Domains</h4>
@@ -349,12 +349,12 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
         <div className="p-6 border-t border-white/10 bg-black/60 backdrop-blur-xl shrink-0 z-20">
           {skill.status === "Completed" ? (
             <div className="flex flex-col gap-2">
-              <div className="w-full py-3 px-6 bg-cyber-green/10 border border-cyber-green/30 text-cyber-green text-center rounded-lg font-mono font-bold tracking-widest flex items-center justify-center gap-2">
+              <div className="w-full py-3 px-6 bg-cyber-green/10 border border-cyber-green/30 text-cyber-green text-center rounded-lg font-mono font-bold tracking-wider flex items-center justify-center gap-2">
                 <Check className="w-5 h-5" /> SKILL ACQUIRED
               </div>
               {skillChallenges.length > 0 && (
                 <button
-                  onClick={() => onOpenChallenges(skill.id)}
+                   onClick={() => onOpenChallenges(skill.id)}
                   className="w-full py-2 px-6 border border-cyber-cyan/30 text-cyber-cyan text-center rounded-lg font-mono text-sm hover:bg-cyber-cyan/10 transition-all flex items-center justify-center gap-2"
                 >
                   <Sword className="w-4 h-4" /> VIEW CHALLENGES ({skillChallenges.length})
@@ -362,13 +362,13 @@ export function SkillDetailsPanel({ skill, onClose, onOpenChallenges }: SkillDet
               )}
             </div>
           ) : skill.status === "Locked" ? (
-            <div className="w-full py-4 px-6 bg-cyber-darker border border-cyber-muted/30 text-cyber-muted text-center rounded-lg font-mono font-bold tracking-widest flex items-center justify-center gap-2">
+            <div className="w-full py-4 px-6 bg-cyber-darker border border-cyber-muted/30 text-cyber-muted text-center rounded-lg font-mono font-bold tracking-wider flex items-center justify-center gap-2">
               <Lock className="w-5 h-5" /> PREREQUISITES NOT MET
             </div>
           ) : (
             <button
               onClick={() => onOpenChallenges(skill.id)}
-              className={`w-full py-4 px-6 ${skill.universalSkill ? 'bg-amber-400 hover:bg-white' : 'bg-cyber-cyan hover:bg-white'} text-black text-center rounded-lg font-mono font-bold tracking-widest flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.5)] group`}
+              className={`w-full py-4 px-6 ${skill.universalSkill ? 'bg-amber-400 hover:bg-white' : 'bg-cyber-cyan hover:bg-white'} text-black text-center rounded-lg font-mono font-bold tracking-wider flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,240,255,0.5)] group`}
             >
               <Sword className="w-5 h-5 group-hover:scale-110 transition-transform" /> 
               ACCEPT A CHALLENGE

@@ -32,7 +32,7 @@ export function IdentityHeader({ user }: { user: UserState }) {
               {user.username}
             </h1>
             {user.streakDays > 0 && (
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-color-red-dim border border-color-red/20 text-color-red text-[10px] font-black font-display tracking-widest">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-color-red-dim border border-color-red/20 text-color-red text-[10px] font-black font-display tracking-wider">
                 <Flame size={12} fill="currentColor" /> {user.streakDays} DAY STREAK
               </div>
             )}
@@ -55,14 +55,14 @@ export function IdentityHeader({ user }: { user: UserState }) {
       <div className="flex gap-4 w-full md:w-auto">
         {/* Level Box */}
         <div className="flex flex-col items-center justify-center px-8 py-3 bg-bg-card border border-border rounded-xl min-w-[120px]">
-          <span className="text-[11px] font-medium font-display tracking-widest text-text-muted uppercase mb-1">Level</span>
+          <span className="text-[11px] font-medium font-display tracking-wider text-text-muted uppercase mb-1">Level</span>
           <span className="text-3xl font-bold text-text-primary font-display leading-none">{user.level}</span>
         </div>
 
         {/* XP Progress Box (Tier 4 Metadata) */}
         <div className="flex-1 md:w-64 px-6 py-3 bg-bg-card border border-border rounded-xl flex flex-col justify-center">
           <div className="flex justify-between items-end mb-2">
-            <span className="text-[11px] font-medium font-display tracking-widest text-text-muted uppercase">XP SYNC</span>
+            <span className="text-[11px] font-medium font-display tracking-wider text-text-muted uppercase">XP SYNC</span>
             <span className="text-xs font-display font-bold text-text-secondary">{xpProgress}/{xpNeeded}</span>
           </div>
           <div className="progress-track w-full">
